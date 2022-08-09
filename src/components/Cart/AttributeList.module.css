@@ -1,0 +1,44 @@
+.attributes-list {
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+  margin: 0;
+  margin-top: 16px;
+  padding: 0;
+  align-items: center;
+}
+
+.item-attribute {
+  box-sizing: border-box;
+  width: 63px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #1d1f22;
+  color: #1d1f22;
+  font-family: "Source Sans Pro";
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+}
+
+.selected-text {
+  background-color: #1d1f22;
+  color: #fff;
+  box-sizing: border-box;
+  width: 63px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #1d1f22;
+  font-family: "Source Sans Pro";
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+}

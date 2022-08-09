@@ -1,0 +1,138 @@
+.bag {
+  width: 325px;
+  box-sizing: border-box;
+  padding: 32px 16px;
+  min-height: 200px;
+  max-height: 677px;
+  background: #ffffff;
+  position: absolute;
+  right: 300px;
+  top: 0;
+  z-index: 100;
+  overflow-y: scroll;
+}
+
+.overlay {
+  position: fixed;
+  margin-top: 80px;
+  overflow-y: hidden !important;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  background: rgba(57, 55, 72, 0.22);
+  z-index: 99;
+}
+
+.bag-header {
+  font-size: 16px;
+}
+
+.bag-title {
+  font-weight: 700;
+  margin-top: 0;
+}
+
+.quantity {
+  font-weight: normal;
+}
+
+.bag-content {
+  width: 100%;
+  min-height: 100px;
+  scroll-behavior: auto;
+}
+
+.bag-items {
+  zoom: 0.68;
+  margin-bottom: 17px;
+}
+
+.empty-bag {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100px;
+  font-size: 21px;
+}
+
+.total {
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.total,
+.bag-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-weight: 600;
+  font-size: 14px;
+  color: #1d1f22;
+}
+
+.total {
+  height: 19px;
+  font-style: 16px;
+  font-weight: 500;
+  margin-bottom: 32px;
+}
+
+.total-number {
+  margin-right: 4px;
+}
+
+.view-bag,
+.check-out {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 140px;
+  height: 43px;
+  font-size: 14px;
+  line-height: 16.8px;
+}
+
+.view-bag {
+  border: 1px solid #1d1f22;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.link {
+  font-family: "Raleway";
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  color: #1d1f22;
+}
+
+.view-bag:hover,
+.check-out:hover {
+  opacity: 0.9;
+}
+
+.check-out {
+  color: #fff;
+  background-color: #5ece7b;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(200, 191, 191);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(199, 199, 199);
+}

@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400&;500&display=swap");
+
+.nav {
+  display: flex;
+  justify-content: center;
+  width: 239px;
+  height: 56px;
+  margin-top: 24px;
+  padding-top: 4px;
+  box-sizing: border-box;
+}
+
+.nav-list {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-list-item,
+.selected-category {
+  height: 100%;
+  padding: 0 16px;
+  margin: 0;
+  font-weight: 500;
+  color: #1d1f22;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.nav-list-item:hover,
+.selected-category {
+  border-bottom: 2px solid #5ece7b;
+  color: #5ece7b;
+}
+
+.nav-list-item:first-child,
+.selected-category {
+  max-width: 97px;
+}
+
+.nav-list-item:nth-child(2),
+.selected-category {
+  max-width: 69px;
+}
+.nav-list-item:last-child,
+.selected-category {
+  max-width: 68px;
+}

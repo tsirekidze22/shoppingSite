@@ -1,0 +1,28 @@
+.slider-content {
+  max-width: 200px;
+  height: 288px;
+  height: 100%;
+  position: relative;
+}
+
+.arrows {
+  width: 56px;
+  display: flex;
+  justify-content: space-between;
+  height: 24px;
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+}
+
+.right-arrow,
+.left-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  width: 24px;
+  z-index: 10;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.73);
+}

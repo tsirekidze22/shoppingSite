@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&family=Roboto+Condensed:wght@700&display=swap");
+
+.cart-item-text {
+  height: calc(100% - 8px);
+  min-width: 210px;
+  color: #1d1f22;
+  font-family: "Raleway", sans-serif;
+}
+
+.cart-item-brand {
+  margin: 0 0 16px 0;
+  line-height: 27px;
+}
+
+.cart-item-name {
+  font-weight: 400;
+  font-size: 30px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  line-height: 27px;
+}
+
+.color {
+  width: 32px;
+  height: 32px;
+}
+
+.cart-item-price {
+  font-weight: 700;
+  font-size: 24px;
+  margin: 0 0 20px 0;
+  line-height: 24px;
+}

@@ -1,0 +1,39 @@
+.cart-item-img {
+  min-width: 200px;
+  max-width: 357px;
+  min-height: 288px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.actions {
+  width: 45px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.plus-action,
+.minus-action {
+  cursor: pointer;
+  width: 45px;
+  height: 45px;
+}
+
+.quantity {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 160%;
+  color: #1d1f22;
+}
+
+.slider {
+  width: 200px;
+  height: 100%;
+}
