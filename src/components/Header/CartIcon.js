@@ -1,4 +1,6 @@
+import React from "react";
 import { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { toggleBag } from "../../store/cart-slice";
 import Bag from "../UI/MyBag/Bag";
@@ -8,7 +10,7 @@ import classes from "./CartIcon.module.css";
 
 class CartIcon extends Component {
   toggleCartIcon() {
-    this.props.toggleBag();
+    this.props.toggleBag(!this.props.showBag);
   }
 
   render() {
@@ -26,6 +28,12 @@ class CartIcon extends Component {
     );
   }
 }
+
+CartIcon.propTypes = {
+  totalQuantity: PropTypes.number.isRequired,
+  toggleBag: PropTypes.func.isRequired,
+  showBag: PropTypes.bool.isRequired,
+};
 
 const mapStateToProps = (state) => {
   return {

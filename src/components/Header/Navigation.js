@@ -1,7 +1,14 @@
+import React from "react";
 import { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getProducts, getCategory } from "../../store/products-slice";
-import { fetchCategories, fetchProducts } from "../../graphql/queries";
+import {
+  fetchCategories,
+  fetchProducts,
+  fetchCategory,
+} from "../../graphql/queries";
+import { Link } from "react-router-dom";
 
 import classes from "./Navigation.module.css";
 
@@ -21,7 +28,7 @@ class Navigation extends Component {
     });
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (prevProps.activeCategory !== this.props.activeCategory) {
       fetchProducts(this.props.activeCategory).then((data) =>
         this.props.getProducts(data)
@@ -30,7 +37,9 @@ class Navigation extends Component {
   }
 
   categorySelectHandler(selected) {
-    this.props.getCategory(selected);
+    fetchCategory(selected).then((data) => {
+      this.props.getCategory(data.name);
+    });
   }
 
   render() {
@@ -51,7 +60,9 @@ class Navigation extends Component {
               }
               onClick={() => this.categorySelectHandler(item.name)}
             >
-              {item.name}
+              <Link key={item.id} to={`/`} className={classes["nav-item-link"]}>
+                {item.name}
+              </Link>
             </li>
           ))}
         </ul>
@@ -59,6 +70,12 @@ class Navigation extends Component {
     );
   }
 }
+
+Navigation.propTypes = {
+  activeCategory: PropTypes.string.isRequired,
+  getProducts: PropTypes.func.isRequired,
+  getCategory: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
   return {

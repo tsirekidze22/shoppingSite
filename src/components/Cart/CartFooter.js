@@ -1,4 +1,6 @@
+import React from "react";
 import { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { resetCart } from "../../store/cart-slice";
 
@@ -59,6 +61,13 @@ class CartFooter extends Component {
     );
   }
 }
+
+CartFooter.propTypes = {
+  totalQuantity: PropTypes.number.isRequired,
+  currentCurrency: PropTypes.string.isRequired,
+  totalPrice: PropTypes.number.isRequired,
+  resetCart: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
   return {

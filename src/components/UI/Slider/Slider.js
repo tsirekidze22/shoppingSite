@@ -1,4 +1,6 @@
+import React from "react";
 import { Component } from "react";
+import PropTypes from "prop-types";
 
 import classes from "./Slider.module.css";
 import arrowRight from "../../../assets/ArrowRight.svg";
@@ -32,7 +34,7 @@ class Slider extends Component {
     this.setState({ currentImage: this.state.gallery[this.state.index + 1] });
   }
 
-  previousImageHandler(i) {
+  previousImageHandler() {
     if (this.state.index !== 0) {
       this.setState({ index: this.state.index - 1 });
       this.setState({ currentImage: this.state.gallery[this.state.index - 1] });
@@ -55,7 +57,7 @@ class Slider extends Component {
         style={{
           backgroundImage: `url(${this.state.currentImage})`,
           backgroundPosition: "center",
-          backgroundSize: "cover",
+          backgroundSize: "contain",
           backgroundRepeat: "no-repeat",
           transition: "0.1s",
         }}
@@ -78,10 +80,14 @@ class Slider extends Component {
             </div>
           )}
         </div>
-        {/* )} */}
       </div>
     );
   }
 }
+
+Slider.propTypes = {
+  gallery: PropTypes.array.isRequired,
+  isBag: PropTypes.bool,
+};
 
 export default Slider;

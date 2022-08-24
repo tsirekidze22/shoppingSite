@@ -8,6 +8,7 @@
   margin-top: 24px;
   padding-top: 4px;
   box-sizing: border-box;
+  z-index: 1;
 }
 
 .nav-list {
@@ -29,6 +30,11 @@
   color: #1d1f22;
   cursor: pointer;
   text-transform: uppercase;
+}
+
+.nav-item-link {
+  text-decoration: none;
+  color: inherit;
 }
 
 .nav-list-item:hover,

@@ -1,4 +1,6 @@
+import React from "react";
 import { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addItem, removeItem } from "../../store/cart-slice";
 
@@ -47,6 +49,13 @@ class CartItemImage extends Component {
     );
   }
 }
+
+CartItemImage.propTypes = {
+  addItem: PropTypes.func.isRequired,
+  removeItem: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired,
+  isBag: PropTypes.bool,
+};
 
 const mapStateToProps = (state) => {
   return {

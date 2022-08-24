@@ -1,4 +1,6 @@
+import React from "react";
 import { Component } from "react";
+import PropTypes from "prop-types";
 import CartItemImage from "./CartItemImage";
 import CartItemText from "./CartItemText";
 
@@ -24,5 +26,11 @@ class CartItem extends Component {
     );
   }
 }
+
+CartItem.propTypes = {
+  index: PropTypes.number,
+  item: PropTypes.object.isRequired,
+  isBag: PropTypes.bool,
+};
 
 export default CartItem;

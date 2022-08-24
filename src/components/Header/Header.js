@@ -1,3 +1,4 @@
+import React from "react";
 import { Component } from "react";
 import Actions from "./Actions";
 import Navigation from "./Navigation";

@@ -1,3 +1,4 @@
+import React from "react";
 import { Component } from "react";
 import Cart from "./components/Cart/Cart";
 import Header from "./components/Header/Header";

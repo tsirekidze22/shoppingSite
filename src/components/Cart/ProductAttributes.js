@@ -1,4 +1,6 @@
+import React from "react";
 import { Component } from "react";
+import PropTypes from "prop-types";
 import AttributeList from "./AttributeList";
 
 import classes from "./ProductAttributes.module.css";
@@ -34,16 +36,16 @@ class ProductAttributes extends Component {
         </p>
         {el.name === "Color" ? (
           <ul className={classes["attributes-list"]} key={el.name}>
-            {el.items?.map((item, i) => (
+            {el.items?.map((item) => (
               <li
                 key={item.id}
                 className={
                   classes[`${item.selected ? "selected-color" : "item-color"}`]
                 }
                 onClick={() =>
-                  this.props.onAttributeClick(
+                  this.props?.onAttributeClick(
                     el,
-                    this.props.attributes,
+                    this.props?.attributes,
                     item.id,
                     index
                   )
@@ -62,13 +64,19 @@ class ProductAttributes extends Component {
             items={el.items}
             element={el}
             index={index}
-            attributes={this.props.attributes}
-            onAttributeClick={this.props.onAttributeClick}
+            attributes={this.props?.attributes}
+            onAttributeClick={this.props?.onAttributeClick}
           />
         )}
       </div>
     ));
   }
 }
+
+ProductAttributes.propTypes = {
+  onAttributeClick: PropTypes.func.isRequired,
+  attributes: PropTypes.array,
+  isBag: PropTypes.bool,
+};
 
 export default ProductAttributes;

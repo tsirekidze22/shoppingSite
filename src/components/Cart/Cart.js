@@ -1,4 +1,6 @@
+import React from "react";
 import { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Title from "../UI/Title/Title";
 import CartFooter from "./CartFooter";
@@ -35,6 +37,10 @@ class Cart extends Component {
     );
   }
 }
+
+Cart.propTypes = {
+  cartItems: PropTypes.array.isRequired,
+};
 
 const mapStateToProps = (state) => {
   return {

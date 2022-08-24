@@ -46,6 +46,8 @@
 .product-item-img {
   min-width: 354px;
   height: 330px;
+  flex: none;
+  align-self: stretch;
 }
 
 .product-item-text {

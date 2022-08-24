@@ -1,4 +1,6 @@
+import React from "react";
 import { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchCurrencies } from "../../graphql/queries";
 import {
@@ -34,9 +36,21 @@ class Currencies extends Component {
     this.props.toggleDropdown();
   }
 
+  handleDropdownClose() {
+    if (this.props.showDropdown) {
+      this.props.toggleDropdown();
+    }
+  }
+
   render() {
     return (
       <>
+        {this.props.showDropdown && (
+          <div
+            className={classes.overlay}
+            onClick={this.handleDropdownClose.bind(this)}
+          ></div>
+        )}
         <div
           className={classes["currencies"]}
           onClick={this.currenciesDropdownHandler.bind(this)}
@@ -76,6 +90,15 @@ class Currencies extends Component {
     );
   }
 }
+
+Currencies.propTypes = {
+  toggleDropdown: PropTypes.func.isRequired,
+  getCurrencies: PropTypes.func.isRequired,
+  getCurrentCurrency: PropTypes.func.isRequired,
+  showDropdown: PropTypes.bool.isRequired,
+  currencies: PropTypes.array.isRequired,
+  currentCurrency: PropTypes.string.isRequired,
+};
 
 const mapStateToProps = (state) => {
   return {

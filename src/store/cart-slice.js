@@ -5,9 +5,6 @@ const initialState = {
   totalPrice: 0,
   totalQuantity: 0,
   showBag: false,
-  modifingAttributes: false,
-  attributes: [],
-  index: 0,
 };
 
 const cartSlice = createSlice({
@@ -20,7 +17,6 @@ const cartSlice = createSlice({
         (item) => item.id === newItem.id
       );
       state.totalQuantity++;
-      state.changed = true;
       state.totalPrice += Number(action.payload.price);
 
       if (!existingItem) {
@@ -33,14 +29,11 @@ const cartSlice = createSlice({
           inStock: newItem.inStock,
           attributes: newItem.attributes,
           price: newItem.price,
+          prices: newItem.prices,
           currency: newItem.currency,
           quantity: 1,
           totalPrice: newItem.price,
         });
-      } else if (existingItem && modifingAttributes) {
-        state.attributes = state.modifingAttributes;
-        existingItem.quantity++;
-        existingItem.totalPrice = existingItem.totalPrice + newItem.price;
       } else {
         existingItem.quantity++;
         existingItem.totalPrice = existingItem.totalPrice + newItem.price;
@@ -61,12 +54,14 @@ const cartSlice = createSlice({
         existingItem.totalPrice = existingItem.totalPrice - existingItem.price;
       }
     },
-    modifingAttributes(state, action) {
-      state.modifingAttributes = action.payload;
-      state.attributes = action.payload.attributes;
-    },
-    toggleBag(state) {
-      state.showBag = !state.showBag;
+    toggleBag(state, action) {
+      state.showBag = action.payload;
+
+      if (action.payload) {
+        document.body.style.overflowY = "hidden";
+      } else if (state.showBag === false) {
+        document.body.style.overflowY = "visible";
+      }
     },
     resetCart(state) {
       state.cartItems = [];
@@ -78,7 +73,6 @@ const cartSlice = createSlice({
 
 const { actions } = cartSlice;
 
-export const { addItem, removeItem, toggleBag, resetCart, modifingAttributes } =
-  actions;
+export const { addItem, removeItem, toggleBag, resetCart } = actions;
 
 export default cartSlice.reducer;

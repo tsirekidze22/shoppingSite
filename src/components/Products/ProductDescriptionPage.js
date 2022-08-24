@@ -1,8 +1,9 @@
+import React from "react";
 import { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Interweave } from "interweave";
 import { addItem } from "../../store/cart-slice";
-import { modifingAttributes } from "../../store/cart-slice";
 import ProductAttributes from "../Cart/ProductAttributes";
 import handleAttributesClick from "../../Functions/handleAttributeClick";
 
@@ -18,49 +19,38 @@ class ProductDescriptionPage extends Component {
       gallery: [],
       mainImage: "",
       attributes: [],
+      currency: "",
+      price: 0,
     };
   }
 
   componentDidMount() {
     let href = window.location.href.split("/");
     let id = href[href.length - 1];
-    this.setState({ id: id });
-    let product = this.props.products.find((item) => item.id === id);
-    const price = product?.prices?.filter(
-      (price) => price.currency.symbol === this.props.currentCurrency
-    );
-
-    const amount = price[0].amount;
-    const currency = price[0].currency.symbol;
-    const gallery = product?.gallery;
-
-    const def = product.attributes?.map((el) => [
-      ...el.items,
-      { ...el.items[0], selected: true },
-    ]);
-
-    const transformed = def?.map((el) => {
-      el[0] = el[el.length - 1];
-      el.pop();
-      return [...el];
-    });
-
-    const transformedAttr = product.attributes?.map((el, i) => {
-      return { ...el, items: transformed[i] };
-    });
-
+    const product = this.props.products.filter((item) => item.id === id)[0];
     this.setState({
-      product: {
-        ...product,
-        price: amount,
-        currency: currency,
-        attributes: transformedAttr,
-      },
-      productPrice: price[0],
-      gallery: gallery,
-      mainImage: gallery[0],
-      attributes: transformedAttr,
+      id: id,
+      product: this.props.product,
+      mainImage: product.gallery[0],
     });
+    const price = product?.prices?.filter(
+      (price) => price?.currency?.symbol === this.props?.currentCurrency
+    );
+    const amount = price[0].amount;
+    this.setState({ price: amount });
+    this.setState({
+      attributes: [],
+      price: amount,
+    });
+  }
+
+  componentDidUpdate(pervProps) {
+    if (pervProps.currentCurrency !== this.props.currentCurrency) {
+      const price = this.state.product?.prices?.filter(
+        (el) => el.currency.symbol === this.props.currentCurrency
+      );
+      this.setState({ price: price[0].amount });
+    }
   }
 
   changeImageHandler(imageUrl) {
@@ -68,15 +58,33 @@ class ProductDescriptionPage extends Component {
   }
 
   addToCart(item) {
+    const selectedAttributesArr = [];
+    const attributes =
+      this.state.attributes.length > 0
+        ? this.state.attributes
+        : this.props.product.attributes;
+
+    attributes.forEach((el) =>
+      el.items.forEach((item) => {
+        if (item.selected === true) {
+          selectedAttributesArr.push(item.id);
+        }
+      })
+    );
+
+    const selectedAttributes = selectedAttributesArr.join("/");
+    const productId = `${item.id}/${selectedAttributes}`;
+
     const product = {
       ...item,
-      attributes: this.state.attributes,
+      id: productId,
+      attributes: attributes,
+      price: this.state.price,
     };
     this.props.addItem(product);
   }
 
   handleAttributeClick = (attribute, attributes, id, index) => {
-    this.props.modifingAttributes(true, index);
     const productId = this.state.id;
     const modifiedAttributes = handleAttributesClick(
       attribute,
@@ -85,16 +93,15 @@ class ProductDescriptionPage extends Component {
       index,
       productId
     );
-
     this.setState({ attributes: modifiedAttributes });
   };
 
   render() {
     return (
       <div className={classes["product-content"]}>
-        {this.state.product?.gallery?.length > 1 && (
+        {this.props.product?.gallery?.length > 1 && (
           <div className={classes.gallery}>
-            {this.state.gallery.map((image, i) => (
+            {this.props.product.gallery.map((image, i) => (
               <div
                 key={i}
                 className={classes["single-image"]}
@@ -103,11 +110,6 @@ class ProductDescriptionPage extends Component {
                   backgroundPosition: "center",
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
-                  border: `${
-                    image === this.state.mainImage
-                      ? "1px solid #1d1f22"
-                      : "1px solid transparent"
-                  }`,
                 }}
                 onClick={() => this.changeImageHandler(image)}
               ></div>
@@ -119,37 +121,41 @@ class ProductDescriptionPage extends Component {
           style={{
             backgroundImage: `url(${this.state.mainImage})`,
             backgroundPosition: "center",
-            backgroundSize: "cover",
+            backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
           }}
         ></div>
         <div className={classes["product-description"]}>
           <h2 className={classes["product-brand"]}>
-            {this.state.product?.brand}
+            {this.props.product?.brand}
           </h2>
           <h2 className={classes["product-name"]}>
-            {this.state.product?.name}
+            {this.props.product?.name}
           </h2>
           <ProductAttributes
-            item={this.state.product}
-            attributes={this.state.attributes}
+            item={this.props.product}
+            attributes={
+              this.state.attributes.length > 0
+                ? this.state.attributes
+                : this.props.product.attributes
+            }
             onAttributeClick={this.handleAttributeClick}
           />
           <div className={classes["product-price"]}>
             <p className={classes["product-price-title"]}>Price:</p>
             <div className={classes.amount}>
-              {this.state.productPrice.currency?.symbol}
-              {this.state.productPrice.amount}
+              {this.props.currentCurrency}
+              {this.state.price}
             </div>
           </div>
           <div
             className={classes["product-btn"]}
-            onClick={() => this.addToCart(this.state.product)}
+            onClick={() => this.addToCart(this.props.product)}
           >
             Add to cart
           </div>
           <section className={classes["product-description-text"]}>
-            <Interweave content={this.state.product?.description} />
+            <Interweave content={this.props.product?.description} />
           </section>
         </div>
       </div>
@@ -157,17 +163,24 @@ class ProductDescriptionPage extends Component {
   }
 }
 
+ProductDescriptionPage.propTypes = {
+  addItem: PropTypes.func.isRequired,
+  products: PropTypes.array.isRequired,
+  product: PropTypes.object.isRequired,
+  currentCurrency: PropTypes.string.isRequired,
+};
+
 const mapStateToProps = (state) => {
   return {
     currentCurrency: state.currencies.currentCurrency,
     products: state.products.products,
-    // attributes: state.cart.attributes,
+    product: state.products.singleProduct,
+    currencies: state.currencies.currencies,
   };
 };
 
 const mapDispatchToProps = {
   addItem,
-  modifingAttributes,
 };
 
 export default connect(

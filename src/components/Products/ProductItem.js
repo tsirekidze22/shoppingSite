@@ -1,4 +1,6 @@
+import React from "react";
 import { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addItem, removeItem } from "../../store/cart-slice";
 
@@ -32,8 +34,17 @@ class ProductItem extends Component {
       return { ...el, items: transformed[i] };
     });
 
+    const selectedAttributesArr = [];
+
+    def.forEach((el) => selectedAttributesArr.push(el[0].id));
+
+    const selectedAttributes = selectedAttributesArr.join("/");
+
+    const productId = `${item.id}/${selectedAttributes}`;
+
     this.props.addItem({
       ...item,
+      id: productId,
       price: amount,
       currency: currency,
       attributes: transformedAttr,
@@ -60,8 +71,9 @@ class ProductItem extends Component {
             className={classes["product-item-img"]}
             style={{
               backgroundImage: `url(${this.props.image})`,
-              backgroundSize: "cover",
+              backgroundSize: "contain",
               backgroundRepeat: "no-repeat",
+              alignSelf: "stretch",
             }}
           ></div>
 
@@ -90,6 +102,16 @@ class ProductItem extends Component {
     );
   }
 }
+
+ProductItem.propTypes = {
+  addItem: PropTypes.func.isRequired,
+  removeItem: PropTypes.func.isRequired,
+  inStock: PropTypes.bool.isRequired,
+  prices: PropTypes.array.isRequired,
+  image: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  item: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = () => {
   return {};

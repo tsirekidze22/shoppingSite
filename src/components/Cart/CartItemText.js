@@ -1,8 +1,8 @@
 import { Component } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ProductAttributes from "./ProductAttributes";
-import { modifingAttributes } from "../../store/cart-slice";
-import handleAttributesClick from "../../Functions/handleAttributeClick";
 
 import classes from "./CartItemText.module.css";
 
@@ -11,23 +11,22 @@ class CartItemText extends Component {
     super();
     this.state = {
       attributes: [],
+      price: 0,
     };
   }
 
-  handleAttributeClick = (attribute, attributes, id, index) => {
-    this.props.modifingAttributes(true);
-    const productId = this.props.item.id;
-
-    const modifiedAttributes = handleAttributesClick(
-      attribute,
-      attributes,
-      id,
-      index,
-      productId
+  componentDidMount() {
+    const price = this.props.item?.prices.filter(
+      (el) => el.currency.symbol === this.props.currentCurrency
     );
 
-    this.setState({ attributes: modifiedAttributes });
+    this.setState({ price: price[0].amount });
+  }
+
+  handleAttributeClick = () => {
+    return;
   };
+
   render() {
     const bagStyles = {
       fontWeight: 300,
@@ -50,7 +49,7 @@ class CartItemText extends Component {
         </h2>
         <p className={classes["cart-item-price"]}>
           {this.props?.currentCurrency}
-          {this.props.item.price}
+          {this.state.price > 0 ? this.state.price : this.props.item.price}
         </p>
         <ProductAttributes
           item={this.props.item}
@@ -66,6 +65,12 @@ class CartItemText extends Component {
   }
 }
 
+CartItemText.propTypes = {
+  item: PropTypes.object.isRequired,
+  currentCurrency: PropTypes.string.isRequired,
+  isBag: PropTypes.bool,
+};
+
 const mapStateToProps = (state) => {
   return {
     attributes: state.cart.attributes,
@@ -73,8 +78,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
-  modifingAttributes,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CartItemText);
+export default connect(mapStateToProps)(CartItemText);
